@@ -16,7 +16,7 @@
     numberOfHiddenUnits = 700;
     
     % Choose appropriate parameters.
-    learningRate = 0.1;
+    learningRate = 0.15;
     
     % Choose activation function.
     activationFunction = @logisticSigmoid;
@@ -24,8 +24,7 @@
     
     % Choose batch size and epochs. Remember there are 60k input values.
     batchSize = 100;
-    epochs = 500;
-    % epochs = 600;
+    epochs = 600;
     
     fprintf('Train twolayer perceptron with %d hidden units.\n', numberOfHiddenUnits);
     fprintf('Learning rate: %d.\n', learningRate);
