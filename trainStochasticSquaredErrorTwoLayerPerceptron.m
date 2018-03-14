@@ -37,12 +37,12 @@ function [hiddenWeights, outputWeights, error] = trainStochasticSquaredErrorTwoL
     
     n = zeros(1,batchSize);
     
-    %¼ÇÂ¼±éÀú¹ıµÄÑµÁ·
+    %è®°å½•éå†è¿‡çš„è®­ç»ƒ
     total = zeros(size(inputValues,2),1);
     
     figure; hold on;
     
-    times = 1;
+    times = 20;
     
     for iter = 1: times
     TrSeqOrd = randperm(trainingSetSize);
@@ -53,18 +53,18 @@ function [hiddenWeights, outputWeights, error] = trainStochasticSquaredErrorTwoL
             n(k) = TrSeqOrd((t-1) * batchSize + k);
             total(n(k)) = 1;
             % Propagate the input vector through the network.
-            inputVector = inputValues(:, n(k));%ÊäÈëÖµ
-            hiddenActualInput = hiddenWeights*inputVector;%Òş²Ø²ãÈ¨ÖØºÍ,¾ØÕó700*1
-            hiddenOutputVector = activationFunction(hiddenActualInput);%Òş²Ø²ãµÄ¼¤»îÖµ£¬¾ØÕó700*1
-            outputActualInput = outputWeights*hiddenOutputVector;%Êä³ö²ãµÄÈ¨ÖØºÍ
-            outputVector = activationFunction(outputActualInput);%Êä³ö²ãµÄ¼¤»îÖµ£¬¾ØÕó10*1
+            inputVector = inputValues(:, n(k));%è¾“å…¥å€¼
+            hiddenActualInput = hiddenWeights*inputVector;%éšè—å±‚æƒé‡å’Œ,çŸ©é˜µ700*1
+            hiddenOutputVector = activationFunction(hiddenActualInput);%éšè—å±‚çš„æ¿€æ´»å€¼ï¼ŒçŸ©é˜µ700*1
+            outputActualInput = outputWeights*hiddenOutputVector;%è¾“å‡ºå±‚çš„æƒé‡å’Œ
+            outputVector = activationFunction(outputActualInput);%è¾“å‡ºå±‚çš„æ¿€æ´»å€¼ï¼ŒçŸ©é˜µ10*1
             
             targetVector = targetValues(:, n(k));
             
             % Backpropagate the errors.
-            outputDelta = dActivationFunction(outputActualInput).*(outputVector - targetVector);%¾ØÕó10*1
-            hiddenDelta = dActivationFunction(hiddenActualInput).*(outputWeights'*outputDelta);
-            %hiddenDelta = dActivationFunction(hiddenActualInput).*(fixrandomWeights'*outputDelta);
+            outputDelta = dActivationFunction(outputActualInput).*(outputVector - targetVector);%çŸ©é˜µ10*1
+            %hiddenDelta = dActivationFunction(hiddenActualInput).*(outputWeights'*outputDelta);
+            hiddenDelta = dActivationFunction(hiddenActualInput).*(fixrandomWeights'*outputDelta);
             
             outputWeights = outputWeights - learningRate.*outputDelta*hiddenOutputVector';
             hiddenWeights = hiddenWeights - learningRate.*hiddenDelta*inputVector';
@@ -76,7 +76,7 @@ function [hiddenWeights, outputWeights, error] = trainStochasticSquaredErrorTwoL
             inputVector = inputValues(:, n(k));
             targetVector = targetValues(:, n(k));
             
-            error = error + norm(activationFunction(outputWeights*activationFunction(hiddenWeights*inputVector)) - targetVector, 2);%Çó·¶Êı
+            error = error + norm(activationFunction(outputWeights*activationFunction(hiddenWeights*inputVector)) - targetVector, 2);%æ±‚èŒƒæ•°
         end;
         error = error/batchSize;
         
